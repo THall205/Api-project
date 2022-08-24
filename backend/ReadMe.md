@@ -1468,4 +1468,4 @@ Return spots filtered by query parameters.
 
 
 
-[Airbnb-data-schema.pdf](https://github.com/THall205/Api-project/files/9419594/Airbnb-data-schema.pdf)
+![](https://github.com/THall205/Api-project/blob/master/wikiimages/airbnb%20data%20schema.png)
