@@ -8,30 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.INTEGER
-      },
       reviewId: {
         type: Sequelize.INTEGER,
-        references:{model:'Reviews'},
+        references:{model:'Reviews' , key:'id'},
         onDelete:'CASCADE'
       },
       url: {
         type: Sequelize.STRING
       },
       createdAt: {
-        type: Sequelize.TIME
-      },
-      updatedAt: {
-        type: Sequelize.TIME
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

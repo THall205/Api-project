@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Booking,{foreignKey:'spotId'})
       Spot.hasMany(models.Review, {foreignKey:'spotId'})
       Spot.hasMany(models.SpotImage, {foreignKey:'spotId'})
-      Spot.hasMany(models.ReviewImage,{through:models.Review})
+      // Spot.hasMany(models.ReviewImage,{through:models.Review})
     }
   }
   Spot.init({
-    id: DataTypes.INTEGER,
+
     ownerId: DataTypes.INTEGER,
     address: DataTypes.STRING,
     city: DataTypes.STRING,

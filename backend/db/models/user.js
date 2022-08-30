@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email,firstName,lastName password }) {
+    static async signup({ username, email,firstName,lastName, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         username,
@@ -57,6 +57,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Booking,{foreignKey:'userId'})
       User.hasMany(models.Spot,{foreignKey:'ownerId'})
       User.hasMany(models.Review,{foreignKey:'userId'})
+      // User.hasMany(models.ReviewImage,{through:models.Review})
+
     }
 
   }

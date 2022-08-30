@@ -15,15 +15,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
-
-
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
-
-
       },
       hashedPassword: {
         type: Sequelize.STRING,
@@ -32,12 +28,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

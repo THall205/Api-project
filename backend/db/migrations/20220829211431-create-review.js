@@ -8,17 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.INTEGER
-      },
       spotId: {
         type: Sequelize.INTEGER,
-        references:{model:'Spots'},
+        references:{model:'Spots', key:'id'},
         onDelete:'CASCADE'
       },
       userId: {
         type: Sequelize.INTEGER,
-        references:{model:'User'},
+        references:{model:'Users', key:'id'},
         onDelete:'CASCADE'
       },
       review: {
@@ -28,18 +25,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       createdAt: {
-        type: Sequelize.TIME
-      },
-      updatedAt: {
-        type: Sequelize.TIME
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
