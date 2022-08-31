@@ -7,7 +7,7 @@ const spots = [
     address: "111 Demo Dome Drive",
     city: "Dimsdale",
     State: "Dimmesota",
-    county:"Demo",
+    country:"United States",
     lat:101.15,
     lng:105.10,
     name:"Dimsdale-Demo-Dome",

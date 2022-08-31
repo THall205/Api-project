@@ -12,7 +12,7 @@ const users =[
  {
   username:"Demo2",
   email:"DemoDoug@demo.com",
-  hashedPassword:"To-Get",
+  hashedPassword:"ToGet",
   firstName:"Doug",
   lastName:"Demodome"
 
