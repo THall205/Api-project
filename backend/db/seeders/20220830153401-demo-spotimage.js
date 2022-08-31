@@ -4,12 +4,12 @@
 const spotimages = [
   {
     spotId:1,
-    url:"www.mypics.com",
+    url:"www.mypics.com/1",
     preview:false
   },
   {
     spotId:1,
-    url:"www.mypics.com",
+    url:"www.mypics.com/2",
     preview:true
   }
 ]
@@ -36,7 +36,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
    await queryInterface.bulkDelete('SpotImages',{
-    where:{spotId:spotimages.map(image => image.spotId)}
+    where:{url:spotimages.map(image => image.url)}
   })
 
   }
