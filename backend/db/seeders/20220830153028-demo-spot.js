@@ -6,7 +6,7 @@ const spots = [
     ownerId: 2,
     address: "111 Demo Dome Drive",
     city: "Dimsdale",
-    State: "Dimmesota",
+    state: "Dimmesota",
     country:"United States",
     lat:101.15,
     lng:105.10,
