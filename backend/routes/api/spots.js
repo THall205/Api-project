@@ -50,7 +50,7 @@ router.get('/:id',async (req,res)=>{
             "statusCode": 404
           })
     }
-      else return res.json(spot)
+       return res.json(spot)
 
 })
 router.put('/:id',async (req,res)=>{
@@ -101,6 +101,7 @@ if(!spots){
         "statusCode": 404
       })
 }
+
    return res.json(spots)
 
 })
