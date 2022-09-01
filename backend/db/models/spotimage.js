@@ -25,13 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     preview:{
      type:  DataTypes.BOOLEAN,
-    },
-    createdAt:{
-      type: DataTypes.TIME,
-    },
-    updatedAt:{
-      type: DataTypes.TIME,
     }
+
   }, {
     sequelize,
     modelName: 'SpotImage',

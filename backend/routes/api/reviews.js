@@ -33,6 +33,8 @@ router.post('/:reviewId/images',
   })
 
 
+
+
 router.get('/current',
 requireAuth,
 async (req,res)=>{
@@ -47,6 +49,32 @@ async (req,res)=>{
         res.json({message:'no reviews by this user'})
     }
     res.json(reviews)
+})
+
+router.put('/:reviewId', requireAuth,async(req,res)=>{
+
+    const reviewToUpdate = await Review.findByPk(req.params.reviewId)
+    const {review,stars} = req.body
+    console.log(reviewToUpdate)
+    console.log(review,stars)
+
+
+    if(reviewToUpdate=== null){
+        res.status(400)
+        return res.json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+                "review": "Review text is required",
+                "stars": "Stars must be an integer from 1 to 5",
+            }
+        })
+
+    }
+    if(review) reviewToUpdate.review = review
+    if(stars) reviewToUpdate.stars = stars
+    await reviewToUpdate.save()
+   return res.json(reviewToUpdate)
 })
 
 

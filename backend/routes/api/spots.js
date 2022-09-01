@@ -6,25 +6,27 @@ const { Spot, SpotImage, Review } = require('../../db/models');
 const router = express.Router();
 //get spots owned by current user
 
-router.get('/:spotId/reviews', async (req, res) => {
-  const { spotId } = req.params
-  const spot = await Spot.findByPk(spotId)
-
-
-  if (!spot) {
-    res.status(404)
-    res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
-  res.json(spotReviews)
 
 
 
-  const spotReviews = await Review.findAll({
-    where: spot.id
+
+router.get('/:spotId/reviews',async (req,res)=>{
+const {spotId} = req.params
+const spot = await Spot.findByPk(spotId)
+
+if (!spot) {
+  res.status(404)
+  res.json({
+    "message": "Spot couldn't be found",
+    "statusCode": 404
   })
+}
+
+const reviews = await Review.findAll({
+  where:{spotId:spot.id}
+})
+
+  res.json(reviews)
 })
 
 router.post('/:spotId/reviews',
@@ -102,11 +104,19 @@ router.get('/:id', async (req, res) => {
   return res.json(spot)
 
 })
-router.put('/:id', async (req, res) => {
+router.put('/:spotId', async (req, res) => {
 
-  let spot = await Spot.findByPk(req.params.id)
+  let spot = await Spot.findByPk(req.params.spotId)
   const { address, city, state, country, lat, lng, name, description, price } = req.body
 
+
+  if (spot === null) {
+    res.status(404)
+    res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
   if (address) spot.address = address
   if (city) spot.city = city
   if (state) spot.state = state
@@ -116,15 +126,7 @@ router.put('/:id', async (req, res) => {
   if (name) spot.name = name
   if (description) spot.description = description
   if (price) spot.price = price
-
-  if (!spot) {
-    res.status(404)
-    res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
-  spot.save()
+ await spot.save()
 
   return res.json(spot)
 
