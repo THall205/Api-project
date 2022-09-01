@@ -1,34 +1,36 @@
 'use strict';
-
-const sequelize = require("sequelize");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+      spotId: {
+        type: Sequelize.INTEGER,
+        references:{model:'Spots', key:'id'},
+        onDelete:'CASCADE'
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+      userId: {
+        type: Sequelize.INTEGER,
+        references:{model:'Users', key:'id'},
+        onDelete:'CASCADE'
       },
-      hashedPassword: {
-        type: Sequelize.STRING,
-        allowNull: false
+      startDate: {
+        type: Sequelize.DATE ,
+        defaultValue: new Date()
+      },
+      endDate: {
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+
       },
       updatedAt: {
         allowNull: false,
@@ -38,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Bookings');
   }
 };
