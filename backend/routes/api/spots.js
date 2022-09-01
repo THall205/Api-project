@@ -76,7 +76,7 @@ router.put('/:id',async (req,res)=>{
           })
     }
     spot.save()
-      else return res.json(spot)
+    return res.json(spot)
 })
 
 router.post('/',
