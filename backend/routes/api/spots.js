@@ -75,6 +75,7 @@ router.put('/:id',async (req,res)=>{
             "statusCode": 404
           })
     }
+    spot.save()
       else return res.json(spot)
 })
 
