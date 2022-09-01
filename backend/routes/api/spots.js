@@ -17,17 +17,18 @@ async (req,res)=>{
     res.json(spots)
 })
 
-router.post('/:id/images',
+router.post('/:spotId/images',
 
 async (req,res)=>{
 
-
-    const spotId = await Spot.findByPk(req.params.id)
+    const {spotId} = req.params
+    const spot = await Spot.findByPk(spotId)
     const {url,preview} = req.body
+    console.log(spot)
 
-    if(!spotId){
+    if(!spot){
         res.status(404)
-        res.json({
+        return res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
           })
@@ -36,15 +37,54 @@ async (req,res)=>{
         spotId, url,preview
     })
 
-    res.json(spotImage)
+   return  res.json(spotImage)
+
+})
+
+router.get('/:id',async (req,res)=>{
+    let spot = await Spot.findByPk(req.params.id)
+
+    if(!spot){
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+          })
+    }
+      else return res.json(spot)
+
+})
+router.put('/:id',async (req,res)=>{
+
+    let spot = await Spot.findByPk(req.params.id)
+    const {address,city,state,country,lat,lng,name,description,price} = req.body
+
+    if(address) spot.address = address
+    if(city) spot.city = city
+    if(state) spot.state = state
+    if(country) spot.country = country
+    if(lat) spot.lat = lat
+    if(lng) spot.lng = lng
+    if(name) spot.name = name
+    if(description) spot.description = description
+    if(price) spot.price = price
+
+    if(!spot){
+        res.status(404)
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+          })
+    }
+      else return res.json(spot)
 })
 
 router.post('/',
 requireAuth,
 async (req,res)=>{
 const {address,city,state,country,lat,lng,name,description,price} = req.body
-
-const spot = await Spot.create({address,city,state,country,lat,lng,name,description,price})
+const ownerId = req.user.id
+console.log(ownerId)
+const spot = await Spot.create({ownerId,address,city,state,country,lat,lng,name,description,price})
 res.json(spot)
 })
 

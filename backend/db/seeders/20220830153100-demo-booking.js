@@ -5,14 +5,14 @@ const bookings = [
   {
     spotId:1,
     userId:3,
-    startDate: new Date().toDateString(),
-    endDate: new Date().toDateString()
+    startDate: new Date('2022-08-31'),
+    endDate: new Date('2022-09-02')
   },
   {
     spotId:1,
     userId:1,
-    startDate: new Date().toDateString(),
-    endDate: new Date().toDateString()
+    startDate: new Date('2022-09-01'),
+    endDate: new Date('2022-09-07')
   },
 ]
 
