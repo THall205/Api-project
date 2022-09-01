@@ -101,7 +101,7 @@ if(!spots){
         "statusCode": 404
       })
 }
-  else return res.json(spots)
+   return res.json(spots)
 
 })
 
