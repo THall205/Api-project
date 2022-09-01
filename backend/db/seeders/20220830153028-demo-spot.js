@@ -18,11 +18,11 @@ const spots = [
   ownerId: 3,
   address: "112 Dave Drive",
   city: "Dimsdale",
-  State: "Dimmesota",
+  state: "Dimmesota",
   country:"United States",
   lat:101.16,
   lng:105.10,
-  name:"Daves house",
+  name:"Daves place",
   description:"single home",
   price:19.99
 }
