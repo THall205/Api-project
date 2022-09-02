@@ -54,23 +54,23 @@ async (req,res)=>{
 router.put('/:reviewId', requireAuth,async(req,res)=>{
 
     const reviewToUpdate = await Review.findByPk(req.params.reviewId)
-    const {review,stars} = req.body
-    console.log(reviewToUpdate)
-    console.log(review,stars)
 
 
     if(reviewToUpdate=== null){
-        res.status(400)
-        return res.json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "review": "Review text is required",
-                "stars": "Stars must be an integer from 1 to 5",
-            }
-        })
+      res.status(400)
+      return res.json({
+        "message": "Validation error",
+        "statusCode": 400,
+        "errors": {
+          "review": "Review text is required",
+          "stars": "Stars must be an integer from 1 to 5",
+        }
+      })
 
     }
+    const {review,stars} = req.body
+    console.log(reviewToUpdate)
+    console.log(review,stars)
     if(review) reviewToUpdate.review = review
     if(stars) reviewToUpdate.stars = stars
     await reviewToUpdate.save()
