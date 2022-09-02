@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, SpotImage, Review , Booking} = require('../../db/models');
+const { Spot, SpotImage, Review, Booking } = require('../../db/models');
 
 const router = express.Router();
 //get spots owned by current user
@@ -10,31 +10,9 @@ const router = express.Router();
 
 
 
-router.get('/:spotId/reviews',async (req,res)=>{
-const {spotId} = req.params
-const spot = await Spot.findByPk(spotId)
-
-if (!spot) {
-  res.status(404)
-  res.json({
-    "message": "Spot couldn't be found",
-    "statusCode": 404
-  })
-}
-
-const reviews = await Review.findAll({
-  where:{spotId:spot.id}
-})
-
-  res.json(reviews)
-})
-
-router.post('/:spotId/reviews',
- requireAuth,
-  async (req,res)=>{
-  const {spotId} = req.params
+router.get('/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params
   const spot = await Spot.findByPk(spotId)
-  const{review,stars} = req.body
 
   if (!spot) {
     res.status(404)
@@ -44,25 +22,47 @@ router.post('/:spotId/reviews',
     })
   }
 
-  const newReview = await Review.create({
-    where:{spotId:spot.id},
-    userId:req.user.id,
-    spotId:spot.id,
-    review,
-    stars
+  const reviews = await Review.findAll({
+    where: { spotId: spot.id }
+  })
 
+  res.json(reviews)
+})
+
+router.post('/:spotId/reviews',
+  requireAuth,
+  async (req, res) => {
+    const { spotId } = req.params
+    const spot = await Spot.findByPk(spotId)
+    const { review, stars } = req.body
+
+    if (!spot) {
+      res.status(404)
+      res.json({
+        "message": "Spot couldn't be found",
+        "statusCode": 404
+      })
+    }
+
+    const newReview = await Review.create({
+      where: { spotId: spot.id },
+      userId: req.user.id,
+      spotId: spot.id,
+      review,
+      stars
+
+
+    })
+    res.json(newReview)
 
   })
-  res.json(newReview)
 
- })
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
- router.get('/:spotId/bookings',requireAuth,async(req,res)=>{
-
-  const {spotId} = req.params
+  const { spotId } = req.params
   const spot = await Spot.findByPk(spotId)
 
-  if(!spot){
+  if (!spot) {
     res.status(404)
     res.json({
       "message": "Spot couldn't be found",
@@ -71,36 +71,36 @@ router.post('/:spotId/reviews',
   }
 
   const booking = await Booking.findAll({
-    where:{spotId:spot.id}
+    where: { spotId }
   })
   res.json(booking)
- })
+})
 
- router.post('/:spotId/bookings',requireAuth,
- async (req,res)=>{
-  // const {spotId} = req.params
-  const spot = await Spot.findByPk(req.params.spotId)
-  const {startDate,endDate} = req.body
+router.post('/:spotId/bookings', requireAuth,
+  async (req, res) => {
+    const { spotId } = req.params
+    const spot = await Spot.findByPk(spotId)
+    const { startDate, endDate } = req.body
 
-  if(!spot){
-    res.status(404)
-    res.json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
+    if (!spot) {
+      res.status(404)
+      res.json({
+        "message": "Spot couldn't be found",
+        "statusCode": 404
+      })
+    }
+
+    const booking = await Booking.create({
+      where: { spotId: spot.id },
+      spotId,
+      userId: req.user.id,
+      startDate,
+      endDate
     })
-  }
 
-  const booking = await Booking.create({
-  where:{spotId:spot.id},
-  spotId:req.params.spotId,
-  userId:req.user.id,
-  startDate,
-  endDate
+    res.json(booking)
+
   })
-
-  res.json(booking)
-
- })
 
 router.post('/:spotId/images',
 
@@ -171,7 +171,7 @@ router.put('/:spotId', async (req, res) => {
   if (name) spot.name = name
   if (description) spot.description = description
   if (price) spot.price = price
- await spot.save()
+  await spot.save()
 
   return res.json(spot)
 
@@ -212,8 +212,23 @@ router.post('/',
 
 
 router.get('/', async (req, res) => {
+  let { page, size } = req.query
 
-  let spots = await Spot.findAll()
+  if (page < 0) page = 0;
+  if (size < 0) size = 0;
+  if (page > 10) page = 10;
+  if (size > 20) size = 20;
+
+  page = parseInt(page)
+  size = parseInt(size)
+
+  if(isNaN(page)) page = 0
+  if(isNaN(size)) size = 0
+
+  let spots = await Spot.findAll({
+    limit: size,
+    page: size * (page - 1)
+  })
 
   if (!spots) {
     res.json({
@@ -222,7 +237,7 @@ router.get('/', async (req, res) => {
     })
   }
 
-  return res.json(spots)
+  return res.json(spots, page, size)
 
 })
 
