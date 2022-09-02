@@ -78,8 +78,8 @@ router.post('/:spotId/reviews',
 
  router.post('/:spotId/bookings',requireAuth,
  async (req,res)=>{
-  const {spotId} = req.params
-  const spot = await Spot.findByPk(spotId)
+  // const {spotId} = req.params
+  const spot = await Spot.findByPk(req.params.spotId)
   const {startDate,endDate} = req.body
 
   if(!spot){
@@ -92,7 +92,7 @@ router.post('/:spotId/reviews',
 
   const booking = await Booking.create({
   where:{spotId:spot.id},
-  spotId,
+  spotId:req.params.spotId,
   userId:req.user.id,
   startDate,
   endDate
