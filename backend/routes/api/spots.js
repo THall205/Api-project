@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, SpotImage, Review } = require('../../db/models');
+const { Spot, SpotImage, Review , Booking} = require('../../db/models');
 
 const router = express.Router();
 //get spots owned by current user
@@ -54,6 +54,32 @@ router.post('/:spotId/reviews',
 
   })
   res.json(newReview)
+
+ })
+
+ router.post('/:spotId/bookings',requireAuth,
+ async (req,res)=>{
+  const {spotId} = req.params
+  const spot = await Spot.findByPk(spotId)
+  const {startDate,endDate} = req.body
+
+  if(!spot){
+    res.status(404)
+    res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+
+  const booking = await Booking.create({
+  where:{spotId:spot.id},
+  spotId,
+  userId:req.user.id,
+  startDate,
+  endDate
+  })
+
+  res.json(booking)
 
  })
 
