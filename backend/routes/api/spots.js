@@ -57,6 +57,25 @@ router.post('/:spotId/reviews',
 
  })
 
+ router.get('/:spotId/bookings',requireAuth,async(req,res)=>{
+
+  const {spotId} = req.params
+  const spot = await Spot.findByPk(spotId)
+
+  if(!spot){
+    res.status(404)
+    res.json({
+      "message": "Spot couldn't be found",
+      "statusCode": 404
+    })
+  }
+
+  const booking = await Booking.findAll({
+    where:{spotId:spot.id}
+  })
+  res.json(booking)
+ })
+
  router.post('/:spotId/bookings',requireAuth,
  async (req,res)=>{
   const {spotId} = req.params
