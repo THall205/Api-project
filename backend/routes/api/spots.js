@@ -57,8 +57,8 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
 
  router.get('/:spotId/bookings',requireAuth,async(req,res)=>{
 
-
-  const spot = await Spot.findByPk(req.params.spotId)
+  const {spotId} = req.params
+  const spot = await Spot.findByPk(spotId)
 
   if(!spot){
     res.status(404)
@@ -76,10 +76,9 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
 
  router.post('/:spotId/bookings',requireAuth,
  async (req,res)=>{
+  const {spotId} = req.params
+  const spot = await Spot.findByPk(spotId)
 
-  const spot = await Spot.findByPk(req.params.spotId)
-
-  const {startDate,endDate} = req.body
 
   if(!spot){
     res.status(404)
@@ -88,10 +87,11 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
       "statusCode": 404
     })
   }
+  const {startDate,endDate} = req.body
 
   const booking = await Booking.create({
-  where:{spotId:req.params.spotId},
-  spotId:req.params.spotId,
+  where:{spotId:spot.id},
+  spotId,
   userId:req.user.id,
   startDate,
   endDate
