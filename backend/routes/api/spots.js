@@ -57,8 +57,8 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
 
  router.get('/:spotId/bookings',requireAuth,async(req,res)=>{
 
-  const {spotId} = req.params.spotId
-  const spot = await Spot.findByPk(spotId)
+
+  const spot = await Spot.findByPk(req.params.spotId)
 
   if(!spot){
     res.status(404)
@@ -178,9 +178,9 @@ router.put('/:spotId', async (req, res) => {
 })
 
 
-router.delete('/:id', requireAuth, async (req, res) => {
+router.delete('/:spotId', requireAuth, async (req, res) => {
 
-  let spot = await Spot.findByPk(req.params.id)
+  let spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
     res.status(404)
