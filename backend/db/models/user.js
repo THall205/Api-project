@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         firstName,
         lastName
       });
-      return await User.scope('currentUser').findByPk(user.id);
+      return await User.scope('signup').findByPk(user.id);
     }
     static associate(models) {
       // define association here
@@ -118,6 +118,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       loginUser: {
         attributes: {}
+      },
+      signup:{
+        attributes:{exclude:["hashedPassword","createdAt", "updatedAt"]}
       }
     }
 
