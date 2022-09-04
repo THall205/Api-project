@@ -39,24 +39,39 @@ router.post(
     '/',
     validateSignup,
     async (req, res) => {
+
       const { firstName,lastName,email, password, username } = req.body;
+
+      const existingUsername = await User.findAll({
+        where:{username}
+      })
+      const existingEmail = await User.findAll({
+        where:{email}
+      })
+      if(existingEmail){
+        res.json({
+          "message": "User already exists",
+          "statusCode": 403,
+          "errors": {
+            "email": "User with that email already exists"
+          }
+        })
+      }
+      if(existingUsername){
+        res.json({
+          "message": "User already exists",
+          "statusCode": 403,
+          "errors": {
+            "username": "User with that username already exists"
+          }
+        })
+      }
+
       let user = await User.signup({ firstName,lastName,email, username, password });
 
 
-      // if(req.email) res.json({
-      //   "message": "User already exists",
-      //   "statusCode": 403,
-      //   "errors": {
-      //     "email": "User with that email already exists"
-      //   }
-      // })
-      // if(req.username) res.json({
-      //   "message": "User already exists",
-      //   "statusCode": 403,
-      //   "errors": {
-      //     "username": "User with that username already exists"
-      //   }
-      // })
+
+
 
 
 

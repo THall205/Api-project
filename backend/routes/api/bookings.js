@@ -34,7 +34,33 @@ router.put('/:bookingId',requireAuth,async(req,res)=>{
           })
     }
 
-    const {startDate,endDate} = req.body
+    let {startDate,endDate} = req.body
+
+
+    let start =startDate.split('-')
+    let startTotal = 0
+
+    start.forEach(el=>{
+        startTotal += parseInt(el)
+    })
+
+
+    let end =endDate.split('-')
+    let endTotal = 0
+
+    end.forEach(el=>{
+        endTotal += parseInt(el)
+    })
+
+    if(startTotal > endTotal){
+        res.json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+              "endDate": "endDate cannot come before startDate"
+            }
+          })
+    }
 
     if(startDate) booking.startDate = startDate
     if(endDate) booking.endDate = endDate
