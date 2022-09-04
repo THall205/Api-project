@@ -41,25 +41,27 @@ router.post(
     async (req, res) => {
       const { firstName,lastName,email, password, username } = req.body;
       let user = await User.signup({ firstName,lastName,email, username, password });
-      if(req.user.email=== email) res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": {
-          "email": "User with that email already exists"
-        }
-      })
-      if(user.username ===username) res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": {
-          "username": "User with that username already exists"
-        }
-      })
+
+
+      // if(req.email) res.json({
+      //   "message": "User already exists",
+      //   "statusCode": 403,
+      //   "errors": {
+      //     "email": "User with that email already exists"
+      //   }
+      // })
+      // if(req.username) res.json({
+      //   "message": "User already exists",
+      //   "statusCode": 403,
+      //   "errors": {
+      //     "username": "User with that username already exists"
+      //   }
+      // })
 
 
 
 
-      token = await setTokenCookie(res, user);
+   let  token = await setTokenCookie(res, user);
       user = user.toJSON()
       user.token = token
       return res.json({

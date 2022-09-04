@@ -34,6 +34,19 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
   const spot = await Spot.findByPk(spotId)
   const{review,stars} = req.body
 
+  if(!review || !stars){
+   // res.json({
+
+    //   "message": "Validation error",
+    //   "statusCode": 400,
+    //   "errors": {
+    //     "review": "Review text is required",
+    //     "stars": "Stars must be an integer from 1 to 5",
+    //   }
+
+    // })
+  }
+
   if (!spot) {
     res.status(404)
     res.json({
@@ -42,6 +55,26 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
     })
   }
 
+  const userReview = await Review.findOne({
+    where:{userId:req.user.id}
+  })
+
+  if(userReview){
+ res.json(   {
+  "message": "User already has a review for this spot",
+  "statusCode": 403
+})
+    // res.json({
+
+    //   "message": "Validation error",
+    //   "statusCode": 400,
+    //   "errors": {
+    //     "review": "Review text is required",
+    //     "stars": "Stars must be an integer from 1 to 5",
+    //   }
+
+    // })
+  }
   const newReview = await Review.create({
     where:{spotId:spot.id},
     userId:req.user.id,
@@ -49,18 +82,6 @@ router.post('/:spotId/reviews',requireAuth,async (req,res)=>{
     review,
     stars
   })
-  if(req.user.id === newReview.userId){
-    res.json({
-
-        "message": "Validation error",
-        "statusCode": 400,
-        "errors": {
-          "review": "Review text is required",
-          "stars": "Stars must be an integer from 1 to 5",
-        }
-
-    })
-  }
 
   res.json(newReview)
 
@@ -224,6 +245,8 @@ router.get('/', async (req, res) => {
 
   let { page, size } = req.query
 
+  if(!page)page =1;
+  if(!size) size = 20;
   if (page < 0) page = 0;
   if (size < 0) size = 0;
   if (page > 10) page = 10;
