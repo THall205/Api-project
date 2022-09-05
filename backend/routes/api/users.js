@@ -23,6 +23,9 @@ const validateSignup = [
       .not()
       .isEmail()
       .withMessage('Username cannot be an email.'),
+      check('username')
+      .exists({checkFalsy:true})
+      .withMessage('please provide a valid username'),
     check('password')
       .exists({ checkFalsy: true })
       .isLength({ min: 6 })
@@ -36,11 +39,41 @@ router.post(
     '/',
     validateSignup,
     async (req, res) => {
+
       const { firstName,lastName,email, password, username } = req.body;
-      const user = await User.signup({ firstName,lastName,email, username, password });
 
-      await setTokenCookie(res, user);
+      const existingUsername = await User.findAll({
+        where:{username}
+      })
+      const existingEmail = await User.findAll({
+        where:{email}
+      })
+      if(existingEmail.length){
+        res.json({
+          "message": "User already exists",
+          "statusCode": 403,
+          "errors": {
+            "email": "User with that email already exists"
+          }
+        })
+      }
+      console.log(existingEmail)
+      if(existingUsername.length){
+        res.json({
+          "message": "User already exists",
+          "statusCode": 403,
+          "errors": {
+            "username": "User with that username already exists"
+          }
+        })
+      }
+      console.log(existingUsername)
 
+      let user = await User.signup({ firstName,lastName,email, username, password })
+
+   let  token = await setTokenCookie(res, user);
+      user = user.toJSON()
+      user.token = token
       return res.json({
         user,
       });

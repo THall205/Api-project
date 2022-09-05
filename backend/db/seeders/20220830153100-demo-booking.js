@@ -9,11 +9,29 @@ const bookings = [
     endDate: new Date('2022-09-02')
   },
   {
-    spotId:1,
+    spotId:2,
+    userId:4,
+    startDate: new Date('2022-09-01'),
+    endDate: new Date('2022-09-07')
+  },
+  {
+    spotId:3,
+    userId:5,
+    startDate: new Date('2022-09-01'),
+    endDate: new Date('2022-09-07')
+  },
+   {
+    spotId:4,
     userId:1,
     startDate: new Date('2022-09-01'),
     endDate: new Date('2022-09-07')
   },
+  {
+    spotId:5,
+    userId:2,
+    startDate: new Date('2022-09-01'),
+    endDate: new Date('2022-09-07')
+  }
 ]
 
 module.exports = {

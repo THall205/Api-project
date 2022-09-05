@@ -26,7 +26,18 @@ router.post(
     async (req, res, next) => {
       const { credential, password } = req.body;
 
-      const user = await User.login({ credential, password });
+      if(!credential || !password){
+res.json({
+  "message": "Validation error",
+  "statusCode": 400,
+  "errors": {
+    "credential": "Email or username is required",
+    "password": "Password is required"
+  }
+})
+      }
+
+      let user = await User.login({ credential, password });
 
       if (!user) {
         const err = new Error('Login failed');
@@ -36,10 +47,14 @@ router.post(
         return next(err);
       }
 
-      await setTokenCookie(res, user);
+      let token = await setTokenCookie(res, user);
+      user= user.toJSON()
+      user.token = token
+
+   console.log(user)
 
       return res.json({
-        user
+       user
       });
     }
   );

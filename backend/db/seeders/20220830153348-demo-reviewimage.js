@@ -9,7 +9,19 @@ const reviewimages = [
   {
     reviewId:2,
     url:"www.mypics.com"
-  }
+  },
+  {
+    reviewId:3,
+    url:"www.mypics.com"
+  },
+  {
+    reviewId:4,
+    url:"www.mypics.com"
+  },
+  {
+    reviewId:5,
+    url:"www.mypics.com"
+  },
 ]
 
 module.exports = {

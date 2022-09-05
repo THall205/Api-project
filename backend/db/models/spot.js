@@ -1,4 +1,6 @@
 'use strict';
+
+
 const {
   Model
 } = require('sequelize');
@@ -9,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static getImageBySpotId(spotId){
+      return SpotImage.findAll()
+    }
     static associate(models) {
       // define association here
       Spot.belongsTo(models.User, {foreignKey:'ownerId'})
@@ -34,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope:{excluded:['createdAt','updatedAt']}
   });
   return Spot;
 };

@@ -8,10 +8,25 @@ const spotimages = [
     preview:false
   },
   {
-    spotId:1,
+    spotId:2,
+    url:"www.mypics.com",
+    preview:false
+  },
+  {
+    spotId:3,
     url:"www.mypics.com",
     preview:true
-  }
+  },
+  {
+    spotId:4,
+    url:"www.mypics.com",
+    preview:true
+  },
+  {
+    spotId:5,
+    url:"www.mypics.com",
+    preview:false
+  },
 ]
 
 module.exports = {
