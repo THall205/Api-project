@@ -34,10 +34,10 @@ const users =[
 
  },
  {
-  username:"Demo",
-  email:"DemoDave@demo.com",
+  username:"Demo5",
+  email:"DemoDanielle@demo.com",
   hashedPassword:"Password",
-  firstName:"Dave",
+  firstName:"Danielle",
   lastName:"Demo"
 
  },
