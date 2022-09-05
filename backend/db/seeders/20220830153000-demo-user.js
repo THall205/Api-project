@@ -25,6 +25,23 @@ const users =[
   lastName:"Demo"
 
  },
+ {
+  username:"Demo4",
+  email:"DemoDebra@demo.com",
+  hashedPassword:"another",
+  firstName:"Debra",
+  lastName:"Demo"
+
+ },
+ {
+  username:"Demo",
+  email:"DemoDave@demo.com",
+  hashedPassword:"Password",
+  firstName:"Dave",
+  lastName:"Demo"
+
+ },
+
 ]
 
 module.exports = {

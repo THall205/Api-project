@@ -48,7 +48,7 @@ router.post(
       const existingEmail = await User.findAll({
         where:{email}
       })
-      if(existingEmail){
+      if(existingEmail.length){
         res.json({
           "message": "User already exists",
           "statusCode": 403,
@@ -57,7 +57,8 @@ router.post(
           }
         })
       }
-      if(existingUsername){
+      console.log(existingEmail)
+      if(existingUsername.length){
         res.json({
           "message": "User already exists",
           "statusCode": 403,
@@ -66,15 +67,9 @@ router.post(
           }
         })
       }
+      console.log(existingUsername)
 
-      let user = await User.signup({ firstName,lastName,email, username, password });
-
-
-
-
-
-
-
+      let user = await User.signup({ firstName,lastName,email, username, password })
 
    let  token = await setTokenCookie(res, user);
       user = user.toJSON()
