@@ -289,10 +289,15 @@ router.get('/', async (req, res) => {
   if(isNaN(page)) page = 0
   if(isNaN(size)) size = 0
 
+
+
   let spots = await Spot.findAll({
+
     limit: size,
     page: size * (page - 1)
   })
+
+
 
   if (!spots) {
     res.json({
