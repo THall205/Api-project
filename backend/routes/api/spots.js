@@ -127,26 +127,28 @@ router.get('/:spotId/bookings',requireAuth,async(req,res)=>{
   }
   const {startDate,endDate} = req.body
 
-const conflictingBooking = await Booking.findAll({
-  where:{
-    spotId
+// const conflictingBooking = await Booking.findAll({
+//   where:{
+//     spotId:{spotId:spot.id},
+//     startDate:{startDate:startDate},
+//     endDate:{endDate:endDate}
 
-  },
-  attributes:['startDate','endDate']
-})
-console.log('booking',conflictingBooking)
+//   },
 
-if(conflictingBooking.length){
-  res.status(403)
-  res.json({
-    "message": "Sorry, this spot is already booked for the specified dates",
-    "statusCode": 403,
-    "errors": {
-      "startDate": "Start date conflicts with an existing booking",
-      "endDate": "End date conflicts with an existing booking"
-    }
-  })
-} else{
+// })
+// console.log('booking',conflictingBooking)
+
+// if(conflictingBooking.length){
+//   res.status(403)
+//   res.json({
+//     "message": "Sorry, this spot is already booked for the specified dates",
+//     "statusCode": 403,
+//     "errors": {
+//       "startDate": "Start date conflicts with an existing booking",
+//       "endDate": "End date conflicts with an existing booking"
+//     }
+//   })
+// }
 
 
   const booking = await Booking.create({
@@ -158,7 +160,7 @@ if(conflictingBooking.length){
   })
 
   res.json(booking)
-}
+
 
 
 
@@ -171,7 +173,7 @@ router.post('/:spotId/images',
     const { spotId } = req.params
     const spot = await Spot.findByPk(spotId)
     const { url, preview } = req.body
-    console.log(spot)
+
 
     if (!spot) {
       res.status(404)
